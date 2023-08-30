@@ -1,47 +1,19 @@
 <?php
 	include('../dbcon.php');
 	session_start();
+
 	if (isset($_SESSION['uid'])) 
 	{
-		
+		header('location: index.php');
 	}
 	else
 	{
-		header('location: menu.php');
+		
 	}
 	
 	if(isset($_POST['add_to_cart']))
 	{
-		if (isset($_SESSION['cart'])) 
-		{
-			$product_id_array = array_column($_SESSION['cart'], 'product_id');
-			if (in_array($_POST['product_id'], $product_id_array)) 
-			{
-				echo "<script> alert('Item Already in Cart ⚠️')</script>";
-				echo "<script> window.location='menu.php' </script>";
-			}
-			else
-			{
-				$count = count($_SESSION['cart']);
-				$product_array = array(
-				'product_id' => $_POST['product_id'],
-				'qty' => $_POST['qty1']
-				);
-				$_SESSION['cart'][$count] = $product_array;
-				echo "<script> alert('Item Added to cart ✔️')</script>";
-				echo "<script> window.location='menu.php' </script>";
-			}
-		}
-		else
-		{	
-			$product_array = array(
-				'product_id' => $_POST['product_id'],
-				'qty' => $_POST['qty1']
-			);
-			$_SESSION['cart'][0] = $product_array;
-			echo "<script> alert('Item Added to cart ✔️')</script>";
-			echo "<script> window.location='menu.php' </script>";
-		}
+		header('location: ../login.php');
 	}
 ?>
 
@@ -77,7 +49,7 @@
 			background: #000000b0;
 			color: #fff;
 			height: 80px;
-			background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/navbar-bg.jpg');
+			background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/spoon.jpg');
 			background-repeat: no-repeat;    
 			background-size: cover;
 			z-index: -9999;
@@ -144,24 +116,13 @@
 	</style>
 </head>
 <body>
-	<div class="main-menu sticky-top">
-		<div class="logo">
+<div class="logo">
 			<img src="../images/logo.png" alt="Webiste Logo" class="img-fluid">
 		</div>
+	<div class="main-menu sticky-top">
 		<div class="inner-menu sticky-top">
 			<a href="../index.php" style="float: left;">HOME</a>
-			<a href="cart.php" style="float: right;">CART 
-			<?php
-			if (isset($_SESSION['cart'])) 
-			{
-				$count = count($_SESSION['cart']);
-				echo "<span><b>$count</b></span>";
-			}
-			else
-			{
-				echo "<span><b>0</b></span>";
-			}
-			?>
+			<a href="../login.php" style="float: right;">CART 0
 			</a>	
 		</div>
 	</div>
@@ -211,7 +172,7 @@
 								<h5 style="font-family: 'Bree Serif', serif;"><?php echo "Rs. ".$data['price']; ?></h5>
 							</div>
 							<div class="col-lg-7 col-md-7 col-7">
-								<form method="post" action="index.php" class="form-inline">
+								<form method="post" action="" class="form-inline">
 									<input type='button' name='add' onclick='javascript: document.getElementById("<?php echo $qty ?>").value++;' value='+' class="btn btn-success" style="border-radius: 50px; padding: 7px 14px;">
 
 									<input type='text' name='qty1' id='<?php echo $qty ?>' size="1" value="1" class="qty form-control d-inline text-center" style="width: 30%; margin: 0 5px; font-weight: 700; border-radius: 50px" readonnly/>
